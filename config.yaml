@@ -1,0 +1,12 @@
+agent:
+  memory_capacity: 10000
+  batch_size: 64
+  gamma: 0.99
+  epsilon_start: 1.0
+  epsilon_decay: 0.995
+  epsilon_min: 0.1
+  learning_rate: 0.001
+  update_target_every: 10
+  hidden_size: 128
+
+  
