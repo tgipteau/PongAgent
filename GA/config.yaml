@@ -1,0 +1,16 @@
+agent:
+  hidden_size: 16
+
+train:
+  nb_generations: 40
+  population_size: 20
+  percentage_to_keep: 25
+  mutation_rate: 0.1
+  mutation_scale: 0.5
+  nb_episodes_per_agent: 5
+  nb_of_great_players: 5
+
+game:
+  state_size: 5
+  action_size: 3
+
