@@ -1,0 +1,42 @@
+squash agent 4:
+  train:
+    squash:
+      nb_generations: 40
+      population_size: 20
+      percentage_to_keep: 25
+      mutation_rate: 0.1
+      mutation_scale: 0.5
+      nb_episodes_per_agent: 5
+      nb_of_great_players: 5
+
+  rewards:
+    ball_hit_player: 100
+    ball_hit_target: 100
+    ball_missed: -300
+    y_dist_reward_factor: 0.00
+    stability_reward: 0.001
+
+  best score: 33
+  notes: "goes too low when ball will bounce back high. good overall, learned to follow ball y"
+    
+squash agent 5:
+    train:
+      nb_generations: 40
+      population_size: 32
+      percentage_to_keep: 25
+      mutation_rate: 0.1
+      mutation_scale: 0.5
+      nb_episodes_per_agent: 8
+      nb_of_great_players: 5
+
+    rewards:
+      ball_hit_player: 100
+      ball_hit_target: 100
+      ball_missed: -300
+      y_dist_reward_factor: 0.00
+      stability_reward: 0.001
+
+    best score: 15
+    notes: "opposite of squash 4. Better prediction, less dumb follow up. Increasing nb_episodes_per_agent.
+     Increased ball speed"
+      

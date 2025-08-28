@@ -20,7 +20,8 @@ class Network(torch.nn.Module):
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
-        return self.fc2(x)  # logits -> argmax
+        x2 = self.fc2(x)
+        return x2  # logits -> argmax
     
 class Agent:
     def __init__(self, state_size, action_size, cfg=config):
@@ -36,6 +37,7 @@ class Agent:
         state = torch.tensor(state, dtype=torch.float32).to(device)
         with torch.no_grad():
             scores = self.model(state)
+        
         action = torch.argmax(scores).item()
         return action
 
