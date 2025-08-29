@@ -149,7 +149,7 @@ class Target:
                 # in static mode, targets moves after every hit
                 # in curriculum, added an intermediate objective by disabling this,
                 # meaning : the target only changes with every new episode
-                self.set()
+                # self.set()
 
         return hit_bool
 
