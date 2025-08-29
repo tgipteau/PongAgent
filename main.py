@@ -251,10 +251,18 @@ class Game:
                 self.ball.vx / self.ball.speed,
                 self.ball.vy / self.ball.speed
                 ]
+                
+        # including intel for target, or normalized placeholders for future curriculum steps
         if self.target is not None:
             state.append(self.target.center / (kScreenHeight - self.target.length))
+            if self.target.type == "moving":
+                state.append(1 if self.target.direction=="up" else 0)
+            else :
+                state.append(0.5) # placeholder
         else:
-            state.append(0.5)
+            state.append(0.5) # placeholder
+        
+            
 
         return state
 
