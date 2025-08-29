@@ -274,7 +274,7 @@ class Game:
 #### MAIN
 def main():
 
-
+    print("\n\n\t MAIN\n")
     if mode=="play" : 
         # initializing pygame and game instance
         pygame.init()
@@ -325,13 +325,6 @@ def main():
     if mode == "train" :
 
         # initializing pygame and game instance
-        """
-        pygame.init()
-        font = pygame.font.SysFont("Arial", 24)
-        screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption(f"Pong Agent - {type}")
-        clock = pygame.time.Clock()
-        """
         game = Game(type=type)
         running = True
 
@@ -339,6 +332,8 @@ def main():
         state_size = len(game.get_state())
         population = [Agent(state_size=state_size, action_size=game_dict["action_size"], cfg=agent_dict) for _ in range(train_dict[type]["population_size"])]
         agent_save_id = len(os.listdir("agents"))+1
+
+        # loading premodels for high-level types ("target", "movingtarget")
         if type=="target":
             # train from best squasher
             path_latest_squash_agent = f"agents/ga_agent_squash_{agent_save_id-1}.pth"
@@ -347,8 +342,16 @@ def main():
                 for agent in population:
                     agent.model.load_state_dict(torch.load(path_latest_squash_agent))
                     agent.model.eval()
+            """ # alternative : train from best targeter
+            path_latest_squash_agent = f"agents/ga_agent_target_{agent_save_id-1}.pth"
+            if os.path.exists(path_latest_target_agent) :
+                print("training on target from ", path_latest_target_agent)
+                for agent in population:
+                    agent.model.load_state_dict(torch.load(path_latest_target_agent))
+                    agent.model.eval() """
         
         if type=="movingtarget":
+            # train from best targeter (static targets)
             path_latest_target_agent = f"agents/ga_agent_target_{agent_save_id-1}.pth"
             if os.path.exists(path_latest_agent) :
                 print("training on moving target from ", path_latest_target_agent)
@@ -389,27 +392,6 @@ def main():
                         episode += 1
                         episode_reward = 0
                         game.reset()
-                    
-                    """
-                    # render first agent playing on every generation
-                    # you are better off setting up a main.py play in another terminal, using last best agent
-                    if agent_idx==0 and episode==1 : 
-                        screen.fill((0,0,0))
-                        game.render(screen)
-                        score_text = font.render(f"Score: {game.score}", True, (255, 255, 255))
-                        gen_text = font.render(f"Generation {generation+1} : agent nb {agent_idx+1} ep. {episode+1}", True, (255,255,255))
-                        action_text = font.render(f"action : {action}", True, (255,255,255))
-                        episode_reward_text = font.render(f"episode reward : {episode_reward}", True, (255,255,255))
-
-
-                        screen.blit(score_text, (10, 10))
-                        screen.blit(gen_text, (10, kScreenHeight-40))
-                        screen.blit(action_text, (kScreenWidth - 200, kScreenHeight-40))
-                        screen.blit(episode_reward_text, (kScreenWidth - 230, kScreenHeight-80))
-                        pygame.display.flip()
-
-                        timeDelta = clock.tick(FPS) / 1000.0
-                    """
 
                 agent_idx += 1
   

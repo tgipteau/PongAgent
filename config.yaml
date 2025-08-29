@@ -16,7 +16,7 @@ train:
     nb_generations: 100
     population_size: 40
     percentage_to_keep: 20
-    mutation_rate: 0.07
+    mutation_rate: 0.04
     mutation_scale: 0.05
     mutation_rate_decay: 0.99
     nb_episodes_per_agent: 25
@@ -26,7 +26,7 @@ train:
     nb_generations: 40
     population_size: 50
     percentage_to_keep: 20
-    mutation_rate: 0.1
+    mutation_rate: 0.05
     mutation_scale: 0.3
     mutation_rate_decay: 0.85
     nb_episodes_per_agent: 12
@@ -35,7 +35,7 @@ train:
 
 rewards:
   ball_hit_player: 100
-  ball_hit_target: 200
+  ball_hit_target: 100
   ball_missed: -100
   y_dist_reward_factor: 2
   stability_reward: 0
