@@ -110,7 +110,8 @@ class Target:
             self.direction = "up" # initial direction
 
     def set(self):
-        self.top_y = random.randint(0, kScreenHeight-self.length)
+        # nb target pos limits positions of target to a discretized set of points along y axis
+        self.top_y = random.randint(0, game_dict["nb_target_pos"]) * ((kScreenHeight-self.length)/game_dict["nb_target_pos"])
         self.center = self.top_y + self.length//2
 
     def move(self):
