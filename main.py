@@ -289,11 +289,9 @@ def main():
         # getting latest trainee as agent if available
         state_size = len(game.get_state())
         agent = Agent(state_size=state_size, action_size=game_dict["action_size"], cfg=agent_dict)
-        path_latest_agent = f"agents/ga_agent_{type}_{len(os.listdir("agents"))}.pth"
-        print("Latest agent is in : ", path_latest_agent)
-        if os.path.exists(path_latest_agent) :
-            print("loading agent from ", path_latest_agent)
-            agent.model.load_state_dict(torch.load(path_latest_agent))
+        path_latest_agent = f"agents/{type}/{len(os.listdir(f"agents/{type}"))}.pth"
+        print("loading agent from ", path_latest_agent)
+        agent.model.load_state_dict(torch.load(path_latest_agent))
         agent.model.eval() 
 
         # game loop
@@ -331,19 +329,18 @@ def main():
         # getting agent fleet for genetic algorithm
         state_size = len(game.get_state())
         population = [Agent(state_size=state_size, action_size=game_dict["action_size"], cfg=agent_dict) for _ in range(train_dict[type]["population_size"])]
-        agent_save_id = len(os.listdir("agents"))+1
+        agent_save_id = len(os.listdir(f"agents/squash"))+1
 
         # loading premodels for high-level types ("target", "movingtarget")
         if type=="target":
             # train from best squasher
-            path_latest_squash_agent = f"agents/ga_agent_squash_{agent_save_id-1}.pth"
-            if os.path.exists(path_latest_squash_agent) :
-                print("training on target from ", path_latest_squash_agent)
-                for agent in population:
-                    agent.model.load_state_dict(torch.load(path_latest_squash_agent))
-                    agent.model.eval()
+            path_latest_squash_agent = f"agents/squash/{len(os.listdir(f"agents/squash"))}.pth"
+            print("training on target from ", path_latest_squash_agent)
+            for agent in population:
+                agent.model.load_state_dict(torch.load(path_latest_squash_agent))
+                agent.model.eval()
             """ # alternative : train from best targeter
-            path_latest_squash_agent = f"agents/ga_agent_target_{agent_save_id-1}.pth"
+            path_latest_target_agent = f"agents/target/{len(os.listdir(f"agents/target"))}.pth"
             if os.path.exists(path_latest_target_agent) :
                 print("training on target from ", path_latest_target_agent)
                 for agent in population:
@@ -352,7 +349,7 @@ def main():
         
         if type=="movingtarget":
             # train from best targeter (static targets)
-            path_latest_target_agent = f"agents/ga_agent_target_{agent_save_id-1}.pth"
+            path_latest_target_agent = f"agents/target/{len(os.listdir(f"agents/target"))}.pth"
             if os.path.exists(path_latest_agent) :
                 print("training on moving target from ", path_latest_target_agent)
                 for agent in population:
@@ -433,7 +430,7 @@ def main():
 
             # saving current best agent
             best_agent = max(best_agents, key=lambda x: x.training_reward)
-            torch.save(best_agent.model.state_dict(), f"agents/ga_agent_{type}_{agent_save_id}.pth")
+            torch.save(best_agent.model.state_dict(), f"agents/{type}/{agent_save_id}.pth")
 
 
 if __name__ == "__main__":
